@@ -13,43 +13,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # 1. Checkout project
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Setup Node.js 22
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
 
+      # 3. Check Node version
       - name: Check Node Version
         run: |
           node --version
           npm --version
 
+      # 4. Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 5. Build React/Vite app
       - name: Build React app
         run: npm run build
 
+      # 6. Setup Java for Android build
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "21"
 
+      # 7. Sync Capacitor Android
       - name: Sync Capacitor Android
         run: npx cap sync android
 
+      # 8. Make Gradle executable
       - name: Make Gradle executable
         working-directory: android
         run: chmod +x gradlew
 
+      # 9. Build Debug APK
       - name: Build Debug APK
         working-directory: android
         run: ./gradlew assembleDebug
 
+      # 10. Upload generated APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
