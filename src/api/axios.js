@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://192.168.43.54:2100/api",
+  baseURL: "https://sargam-music-l2in.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
