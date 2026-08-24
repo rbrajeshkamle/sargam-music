@@ -1,12 +1,24 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
 import api from "../api/axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("sargam_user")) || null
-  );
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("sargam_user");
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (error) {
+      console.error("User storage error:", error);
+      return null;
+    }
+  });
 
   const [loading, setLoading] = useState(true);
 
@@ -15,38 +27,81 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const register = async (name, email, password) => {
-    const { data } = await api.post("/auth/register", {
-      name,
-      email,
-      password,
-    });
+    try {
+      console.log("Registering user:", {
+        name,
+        email,
+      });
 
-    localStorage.setItem("sargam_token", data.token);
-    localStorage.setItem(
-      "sargam_user",
-      JSON.stringify(data.user)
-    );
+      const response = await api.post("/auth/register", {
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+      });
 
-    setUser(data.user);
+      const { data } = response;
 
-    return data;
+      console.log("Register response:", data);
+
+      if (!data.success) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      localStorage.setItem("sargam_token", data.token);
+
+      localStorage.setItem(
+        "sargam_user",
+        JSON.stringify(data.user)
+      );
+
+      setUser(data.user);
+
+      return data;
+    } catch (error) {
+      console.error(
+        "Register API Error:",
+        error.response?.data || error.message
+      );
+
+      throw error;
+    }
   };
 
   const login = async (email, password) => {
-    const { data } = await api.post("/auth/login", {
-      email,
-      password,
-    });
+    try {
+      console.log("Logging in:", email);
 
-    localStorage.setItem("sargam_token", data.token);
-    localStorage.setItem(
-      "sargam_user",
-      JSON.stringify(data.user)
-    );
+      const response = await api.post("/auth/login", {
+        email: email.trim().toLowerCase(),
+        password,
+      });
 
-    setUser(data.user);
+      const { data } = response;
 
-    return data;
+      console.log("Login response:", data);
+
+      if (!data.success) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      localStorage.setItem("sargam_token", data.token);
+
+      localStorage.setItem(
+        "sargam_user",
+        JSON.stringify(data.user)
+      );
+
+      setUser(data.user);
+
+      return data;
+    } catch (error) {
+      console.error(
+        "Login API Error:",
+        error.response?.data || error.message
+      );
+
+      throw error;
+    }
   };
 
   const logout = () => {
