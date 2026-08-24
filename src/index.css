@@ -1,0 +1,228 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #090909;
+  --surface: #121212;
+  --surface-light: #181818;
+
+  --text: #f5e6d3;
+  --muted: #9d948b;
+
+  --accent: #d97745;
+  --accent-hover: #e98a56;
+
+  --border: rgba(255, 235, 210, 0.1);
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: var(--text);
+  background: var(--bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+html {
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+
+/* =========================
+   ROOT
+========================= */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  text-align: left;
+}
+
+
+/* =========================
+   GLOBAL ELEMENTS
+========================= */
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: none;
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* =========================
+   APP LAYOUT
+========================= */
+
+.app-layout {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(217, 119, 69, 0.08),
+      transparent 30%
+    ),
+    var(--bg);
+
+  color: var(--text);
+}
+
+
+/* =========================
+   MAIN AREA
+========================= */
+
+.main-area {
+  flex: 1;
+
+  min-width: 0;
+  min-height: 100vh;
+
+  padding-bottom: 110px;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================
+   PAGE CONTENT
+========================= */
+
+.page-content {
+  width: 100%;
+
+  padding:
+    30px
+    clamp(20px, 4vw, 60px)
+    150px;
+
+  min-height: calc(100vh - 80px);
+}
+
+
+/* =========================
+   GLASS EFFECT
+========================= */
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(15px);
+
+  -webkit-backdrop-filter:
+    blur(15px);
+
+  border-radius: 18px;
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090909;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2c2724;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.app-loading {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-size: 18px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .page-content {
+    padding:
+      20px
+      16px
+      150px;
+  }
+}
